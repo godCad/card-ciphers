@@ -31,7 +31,7 @@ export default function SubmissionForm({ code, setCode, isValid, loading, onSubm
         />
         <p className={styles.helper}>Enter the code exactly as shown on your gift card.</p>
         <Button type="submit" variant="primary" disabled={!isValid || loading} className={styles.submit}>
-          {loading ? 'Checking…' : 'Check your balance'}
+          {loading ? 'Checking…' : 'Check balance'}
         </Button>
       </form>
     </Card>
