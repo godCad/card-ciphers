@@ -4,7 +4,7 @@ import {
   isTerminal,
   type GiftCardSubmission,
 } from '../../../models/giftCardSubmission';
-import { GiftGlyph } from '../../../components/icons';
+import { GiftGlyph, TrashIcon } from '../../../components/icons';
 import Button from '../../../components/Button';
 import StatusChip from './StatusChip';
 import styles from '../AdminDashboard.module.css';
@@ -13,9 +13,17 @@ interface Props {
   rows: GiftCardSubmission[];
   onConfirm: (id: string) => void;
   onDecline: (id: string) => void;
+  onEditAmount: (id: string) => void;
+  onDelete: (id: string) => void;
 }
 
-export default function SubmissionsTable({ rows, onConfirm, onDecline }: Props) {
+export default function SubmissionsTable({
+  rows,
+  onConfirm,
+  onDecline,
+  onEditAmount,
+  onDelete,
+}: Props) {
   return (
     <div className={styles.tableWrap}>
       <table className={styles.table}>
@@ -53,9 +61,7 @@ export default function SubmissionsTable({ rows, onConfirm, onDecline }: Props) 
               <td className={styles.amountCell}>{formatAmount(row.amount)}</td>
               <td>
                 <div className={styles.actions}>
-                  {isTerminal(row.status) ? (
-                    <Button variant="outline">View</Button>
-                  ) : (
+                  {!isTerminal(row.status) ? (
                     <>
                       <Button variant="primary" onClick={() => onConfirm(row.id)}>
                         Confirm
@@ -64,7 +70,22 @@ export default function SubmissionsTable({ rows, onConfirm, onDecline }: Props) 
                         Decline
                       </Button>
                     </>
+                  ) : row.status === 'confirmed' ? (
+                    <Button variant="outline" onClick={() => onEditAmount(row.id)}>
+                      Edit
+                    </Button>
+                  ) : (
+                    <Button variant="outline">View</Button>
                   )}
+                  <button
+                    type="button"
+                    className={styles.deleteButton}
+                    onClick={() => onDelete(row.id)}
+                    aria-label={`Delete card ${row.cardNumber}`}
+                    title="Delete"
+                  >
+                    <TrashIcon size={16} />
+                  </button>
                 </div>
               </td>
             </tr>

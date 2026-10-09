@@ -8,6 +8,7 @@ import SearchBar from './components/SearchBar';
 import SubmissionsTable from './components/SubmissionsTable';
 import Pagination from './components/Pagination';
 import ConfirmAmountModal from './components/ConfirmAmountModal';
+import ConfirmDeleteModal from './components/ConfirmDeleteModal';
 import styles from './AdminDashboard.module.css';
 
 export default function AdminDashboard() {
@@ -31,7 +32,13 @@ export default function AdminDashboard() {
                 <h2 className={styles.tableTitle}>Submitted Gift Cards</h2>
                 <SearchBar value={vm.search} onChange={vm.setSearch} />
               </div>
-              <SubmissionsTable rows={vm.paged} onConfirm={vm.confirm} onDecline={vm.decline} />
+              <SubmissionsTable
+                rows={vm.paged}
+                onConfirm={vm.confirm}
+                onDecline={vm.decline}
+                onEditAmount={vm.editAmount}
+                onDelete={vm.requestDelete}
+              />
               <Pagination
                 rangeLabel={vm.rangeLabel}
                 page={vm.page}
@@ -43,8 +50,14 @@ export default function AdminDashboard() {
         )}
         <ConfirmAmountModal
           target={vm.confirmTarget}
+          mode={vm.amountMode}
           onCancel={vm.cancelConfirm}
           onConfirm={vm.submitConfirm}
+        />
+        <ConfirmDeleteModal
+          target={vm.deleteTarget}
+          onCancel={vm.cancelDelete}
+          onConfirm={vm.confirmDelete}
         />
       </div>
     </div>

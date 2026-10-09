@@ -43,11 +43,16 @@ export async function getAdmin(ref: string): Promise<{ name: string; submissions
   return { name: data.name, submissions: data.cards.map(toSubmission) };
 }
 
+// status is optional so an amount can be edited without re-sending the card's status
 export async function updateCard(
   id: string,
-  payload: { status: SubmissionStatus; amount?: number },
+  payload: { status?: SubmissionStatus; amount?: number },
 ): Promise<void> {
   await http(`/cards/${id}`, { method: 'PATCH', body: JSON.stringify(payload) });
+}
+
+export async function deleteCard(id: string): Promise<void> {
+  await http(`/cards/${id}`, { method: 'DELETE' });
 }
 
 export type VerifyResult =

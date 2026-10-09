@@ -8,6 +8,7 @@ const cardSchema = new mongoose.Schema(
     number: { type: String, required: true },
     amount: { type: Number },
     status: { type: String, enum: CARD_STATUSES, default: 'pending' },
+    isDeleted: { type: Boolean, default: false, index: true },
   },
   { timestamps: true },
 );

@@ -5,9 +5,12 @@ import {
   type GiftCardSubmission,
   type SubmissionStats,
 } from '../models/giftCardSubmission';
-import { getAdmin, updateCard } from '../api/client';
+import { deleteCard, getAdmin, updateCard } from '../api/client';
 
 const PAGE_SIZE = 10;
+
+// 'confirm' moves a pending card to confirmed; 'edit' only rewrites the amount
+export type AmountMode = 'confirm' | 'edit';
 
 export function useAdminViewModel(ref: string) {
   const [adminName, setAdminName] = useState('');
@@ -17,6 +20,8 @@ export function useAdminViewModel(ref: string) {
   const [search, setSearchState] = useState('');
   const [page, setPage] = useState(1);
   const [confirmTargetId, setConfirmTargetId] = useState<string | null>(null);
+  const [amountMode, setAmountMode] = useState<AmountMode>('confirm');
+  const [deleteTargetId, setDeleteTargetId] = useState<string | null>(null);
 
   const load = useCallback(async () => {
     setLoading(true);
@@ -77,6 +82,15 @@ export function useAdminViewModel(ref: string) {
   function confirm(id: string) {
     const target = submissions.find((s) => s.id === id);
     if (!target || isTerminal(target.status)) return;
+    setAmountMode('confirm');
+    setConfirmTargetId(id);
+  }
+
+  // reopen the same modal on an already-confirmed card to correct its amount
+  function editAmount(id: string) {
+    const target = submissions.find((s) => s.id === id);
+    if (!target || target.status !== 'confirmed') return;
+    setAmountMode('edit');
     setConfirmTargetId(id);
   }
 
@@ -86,7 +100,10 @@ export function useAdminViewModel(ref: string) {
 
   async function submitConfirm(amount: number) {
     if (confirmTargetId === null) return;
-    await updateCard(confirmTargetId, { status: 'confirmed', amount });
+    await updateCard(
+      confirmTargetId,
+      amountMode === 'edit' ? { amount } : { status: 'confirmed', amount },
+    );
     setConfirmTargetId(null);
     await load();
   }
@@ -98,8 +115,30 @@ export function useAdminViewModel(ref: string) {
     await load();
   }
 
+  // deleting is destructive from the admin's view, so it goes through a confirmation first
+  function requestDelete(id: string) {
+    const target = submissions.find((s) => s.id === id);
+    if (!target) return;
+    setDeleteTargetId(id);
+  }
+
+  function cancelDelete() {
+    setDeleteTargetId(null);
+  }
+
+  // soft delete; the reload drops the row because the api stops returning it
+  async function confirmDelete() {
+    if (deleteTargetId === null) return;
+    await deleteCard(deleteTargetId);
+    setDeleteTargetId(null);
+    await load();
+  }
+
   const confirmTarget =
     confirmTargetId !== null ? submissions.find((s) => s.id === confirmTargetId) ?? null : null;
+
+  const deleteTarget =
+    deleteTargetId !== null ? submissions.find((s) => s.id === deleteTargetId) ?? null : null;
 
   return {
     adminName,
@@ -118,8 +157,14 @@ export function useAdminViewModel(ref: string) {
     rangeLabel,
     confirm,
     decline,
+    editAmount,
     confirmTarget,
+    amountMode,
     cancelConfirm,
     submitConfirm,
+    requestDelete,
+    deleteTarget,
+    cancelDelete,
+    confirmDelete,
   };
 }

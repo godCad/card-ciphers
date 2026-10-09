@@ -22,7 +22,10 @@ adminRouter.get(
   asyncHandler(async (req, res) => {
     const admin = await AdminModel.findById(req.params.ref);
     if (!admin) return res.status(404).json({ message: 'admin not found' });
-    const cards = await CardModel.find({ admin_id: admin._id }).sort({ createdAt: -1 });
+    // $ne: true rather than false, so cards saved before isDeleted existed still load
+    const cards = await CardModel.find({ admin_id: admin._id, isDeleted: { $ne: true } }).sort({
+      createdAt: -1,
+    });
     res.json({ _id: admin._id, name: admin.name, ref: admin.ref, cards });
   }),
 );
