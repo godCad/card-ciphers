@@ -50,9 +50,7 @@ cardRouter.post(
     const ref = String(req.body?.ref ?? '').trim();
     const number = String(req.body?.number ?? '').replace(/\D/g, '');
     if (!ref) return res.status(400).json({ result: 'error', message: 'Missing submission link.' });
-    if (number.length !== 16) {
-      return res.status(400).json({ result: 'error', message: 'Enter a valid 16-digit code.' });
-    }
+
 
     const admin = await AdminModel.findOne({ ref });
     if (!admin) return res.status(404).json({ result: 'error', message: 'Invalid submission link.' });

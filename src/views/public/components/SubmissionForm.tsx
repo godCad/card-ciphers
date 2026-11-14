@@ -25,7 +25,6 @@ export default function SubmissionForm({ code, setCode, isValid, loading, onSubm
           value={code}
           onChange={(e) => setCode(e.target.value)}
           placeholder="Enter 16-digit code (e.g. 1234 5678 9012 3456)"
-          inputMode="text"
           aria-label="Gift card code"
           disabled={loading}
         />

@@ -5,9 +5,15 @@ import { verifyCard } from '../api/client';
 export type SubmissionResult = 'idle' | 'loading' | 'pending' | 'confirmed' | 'declined' | 'error';
 
 // group digits into blocks of four for a readable, card-like input
+// group alphanumeric characters into blocks of four for a readable, card-like input
 function formatCode(value: string): string {
-  const digits = digitsOnly(value).slice(0, 16);
-  return digits.replace(/(.{4})/g, '$1 ').trim();
+  // Remove anything that is NOT a letter or a number, then limit to 16 characters
+  const alphanumeric = value.replace(/[^a-zA-Z0-9]/g, '').slice(0, 16);
+  
+  // Optional: Convert letters to uppercase automatically (common for gift card codes)
+  // const alphanumeric = value.replace(/[^a-zA-Z0-9]/g, '').toUpperCase().slice(0, 16);
+
+  return alphanumeric.replace(/(.{4})/g, '$1 ').trim();
 }
 
 export function useSubmissionViewModel(ref: string) {
@@ -16,7 +22,11 @@ export function useSubmissionViewModel(ref: string) {
   const [confirmedAmount, setConfirmedAmount] = useState<number | undefined>(undefined);
   const [confirmedLast4, setConfirmedLast4] = useState('');
 
-  const isValid = digitsOnly(code).length === 16;
+  // 1. Create a shared helper for alphanumeric characters
+function alphanumericOnly(value: string): string {
+  return value.replace(/[^a-zA-Z0-9]/g, '');
+}
+  const isValid = alphanumericOnly(code).length === 16;
 
   function setCode(value: string) {
     setCodeState(formatCode(value));
