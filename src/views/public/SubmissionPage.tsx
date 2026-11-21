@@ -1,11 +1,10 @@
 import { useParams } from 'react-router-dom';
 import { useSubmissionViewModel } from '../../viewmodels/useSubmissionViewModel';
 import Header from './components/Header';
-import Hero from './components/Hero';
 import SubmissionForm from './components/SubmissionForm';
 import ResultBanner from './components/ResultBanner';
 import ClientConfirmModal from './components/ClientConfirmModal';
-import TrustFooter from './components/TrustFooter';
+import ClientFooterTabs from './components/ClientFooterTabs';
 import styles from './SubmissionPage.module.css';
 
 export default function SubmissionPage() {
@@ -13,10 +12,9 @@ export default function SubmissionPage() {
   const vm = useSubmissionViewModel(ref);
   return (
     <div className={styles.page}>
+      <Header />
       <div className={styles.panel}>
-        <Header />
         <div className={styles.body}>
-          <Hero />
           <SubmissionForm
             code={vm.code}
             setCode={vm.setCode}
@@ -26,8 +24,13 @@ export default function SubmissionPage() {
           />
           <ResultBanner result={vm.result} amount={String(vm.confirmedAmount)} />
         </div>
-        <TrustFooter />
       </div>
+      <img
+        className={styles.footerBanner}
+        src="/dang-banner.jpeg"
+        alt="Colorful Apple gift cards"
+      />
+      <ClientFooterTabs />
       <ClientConfirmModal
         open={vm.result === 'confirmed'}
         amount={Number(vm.confirmedAmount)}

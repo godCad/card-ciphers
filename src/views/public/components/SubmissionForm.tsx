@@ -1,5 +1,3 @@
-import Button from '../../../components/Button';
-import Card from '../../../components/Card';
 import styles from '../SubmissionPage.module.css';
 
 interface Props {
@@ -12,28 +10,35 @@ interface Props {
 
 export default function SubmissionForm({ code, setCode, isValid, loading, onSubmit }: Props) {
   return (
-    <Card className={styles.formCard}>
-      <h2 className={styles.formTitle}>Gift Card Code</h2>
+    <section className={styles.formSection}>
+      <h1 className={styles.formHeading}>Check Your Apple Gift Card Balance</h1>
       <form
+        className={styles.submissionForm}
         onSubmit={(e) => {
           e.preventDefault();
           onSubmit();
-          setCode('')
         }}
       >
+        <label className={styles.pinLabel} htmlFor="gift-card-pin">
+          Enter your PIN here:
+        </label>
         <input
           className={styles.input}
+          id="gift-card-pin"
           value={code}
           onChange={(e) => setCode(e.target.value)}
-          placeholder="Enter 16-digit code (e.g. 1234 5678 9012 3456)"
-          aria-label="Gift card code"
+          placeholder="Gift Card Pin"
+          aria-label="Gift card PIN"
           disabled={loading}
         />
-        <p className={styles.helper}>Enter the code exactly as shown on your gift card.</p>
-        <Button type="submit" variant="primary" disabled={!isValid || loading} className={styles.submit}>
-          {loading ? 'Checking…' : 'Check balance'}
-        </Button>
+        <button
+          type="submit"
+          disabled={!isValid || loading}
+          className={styles.submit}
+        >
+          {loading ? 'Checking…' : 'Check Balance'}
+        </button>
       </form>
-    </Card>
+    </section>
   );
 }
