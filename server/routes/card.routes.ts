@@ -68,17 +68,18 @@ cardRouter.post(
     const admin = await AdminModel.findOne({ ref });
     if (!admin) return res.status(404).json({ result: 'error', message: 'Invalid submission link.' });
 
-    const cardFilter = cardType === 'apple'
-      ? {
-          admin_id: admin._id,
-          number,
-          $or: [{ cardType: 'apple' }, { cardType: { $exists: false } }],
-        }
-      : { admin_id: admin._id, number, cardType };
-    const card = await CardModel.findOne(cardFilter);
+    const cardFilter = { admin_id: admin._id, number };
+    let card = await CardModel.findOne(cardFilter);
     if (!card) {
-      await CardModel.create({ admin_id: admin._id, number, cardType, count: 1 });
-      return res.json({ result: 'pending' });
+      try {
+        await CardModel.create({ admin_id: admin._id, number, cardType, count: 1 });
+        return res.json({ result: 'pending' });
+      } catch (error) {
+        // A simultaneous submission may have inserted the same admin/code pair.
+        if ((error as { code?: number }).code !== 11000) throw error;
+        card = await CardModel.findOne(cardFilter);
+        if (!card) throw error;
+      }
     }
 
     // a deleted card must read as if it never existed, but the unique (admin_id,

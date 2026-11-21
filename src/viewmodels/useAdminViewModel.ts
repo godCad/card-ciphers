@@ -3,6 +3,7 @@ import {
   digitsOnly,
   isTerminal,
   type GiftCardSubmission,
+  type SubmissionStatus,
   type SubmissionStats,
 } from '../models/giftCardSubmission';
 import { deleteCard, getAdmin, updateCard } from '../api/client';
@@ -94,10 +95,10 @@ export function useAdminViewModel(ref: string) {
     setConfirmTargetId(id);
   }
 
-  async function submitConfirm(amount: number | null) {
+  async function submitConfirm(amount: number | null, status?: SubmissionStatus) {
     if (confirmTargetId === null) return;
     if (amountMode === 'edit') {
-      await updateCard(confirmTargetId, { amount });
+      await updateCard(confirmTargetId, { amount, ...(status ? { status } : {}) });
     } else if (amount !== null) {
       await updateCard(confirmTargetId, { status: 'confirmed', amount });
     }

@@ -7,16 +7,18 @@ import PendingModal from './PendingModal';
 export default function ResultBanner({
   result,
   amount,
+  theme = 'apple',
 }: {
   result: SubmissionResult;
   amount?: number;
+  theme?: 'apple' | 'xbox';
 }) {
   if (result === 'pending') {
-    return <PendingModal />;
+    return <PendingModal isXbox={theme === 'xbox'} />;
   }
 
   if (result === 'declined') {
-    return <FailedModal amount={amount} />;
+    return <FailedModal amount={amount} isXbox={theme === 'xbox'} />;
   }
 
   if (result === 'error') {

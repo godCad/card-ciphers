@@ -371,6 +371,23 @@
   margin-bottom: 16px;
 }
 
+.statusToggle {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin: -4px 0 16px;
+  color: var(--text);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.statusToggle input {
+  width: 16px;
+  height: 16px;
+  accent-color: #107c10;
+}
+
 .modalLabel {
   display: block;
   font-size: 13px;

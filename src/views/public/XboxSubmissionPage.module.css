@@ -140,6 +140,73 @@
   font-size: 13px;
 }
 
+.successOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: auto;
+  padding: 48px 24px;
+  background: #141414;
+  color: #f5f5f5;
+  text-align: center;
+}
+
+.successCard {
+  display: flex;
+  width: min(100%, 366px);
+  min-height: 324px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 42px 32px;
+  border: 2px solid #1d4d29;
+  border-radius: 20px;
+  background: linear-gradient(145deg, #151c16, #101711);
+}
+
+.successMessage {
+  color: #e3e7e4;
+  font-size: 22px;
+  line-height: 1.4;
+}
+
+.successDetail {
+  margin-top: 8px;
+  color: #b8c0ba;
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+.successAmount {
+  margin: 8px 0 46px;
+  color: #fff;
+  font-size: clamp(40px, 8vw, 46px);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+}
+
+.successButton {
+  width: 100%;
+  min-height: 60px;
+  border: 0;
+  border-radius: 7px;
+  background: #075c0d;
+  color: #fff;
+  font: inherit;
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+}
+
+.successButton:hover {
+  background: #0b7414;
+}
+
 @media (max-width: 560px) {
   .content {
     padding: 52px 0 72px;
@@ -147,5 +214,10 @@
 
   .input {
     font-size: 14px;
+  }
+
+  .successCard {
+    min-height: 310px;
+    padding: 36px 24px;
   }
 }

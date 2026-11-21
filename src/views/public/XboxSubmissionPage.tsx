@@ -38,6 +38,7 @@ export default function XboxSubmissionPage() {
         <ResultBanner
           result={vm.result}
           amount={typeof vm.confirmedAmount === 'number' ? vm.confirmedAmount : undefined}
+          theme="xbox"
         />
       </main>
 

@@ -4,13 +4,29 @@ import Modal from '../../../components/Modal';
 import { XCircleIcon } from '../../../components/icons';
 import { formatAmount } from '../../../models/giftCardSubmission';
 import styles from '../SubmissionPage.module.css';
+import XboxResultModal from './XboxResultModal';
 
 interface Props {
   amount?: number;
+  isXbox?: boolean;
 }
 
-export default function FailedModal({ amount }: Props) {
+export default function FailedModal({ amount, isXbox = false }: Props) {
   const [open, setOpen] = useState(true);
+
+  if (!open) return null;
+
+  if (isXbox) {
+    return (
+      <XboxResultModal
+        message="Invalid gift card"
+        detail="This code could not be verified. Please try again."
+        amount={amount}
+        buttonLabel="TRY AGAIN"
+        onClose={() => setOpen(false)}
+      />
+    );
+  }
 
   return (
     <Modal open={open} onClose={() => setOpen(false)} title="Invalid Card">
