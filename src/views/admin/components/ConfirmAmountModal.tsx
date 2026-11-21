@@ -8,11 +8,12 @@ import styles from '../AdminDashboard.module.css';
 interface Props {
   target: GiftCardSubmission | null;
   mode: AmountMode;
-  onCancel: () => void;
+  onDecline: (amount: number) => void;
   onConfirm: (amount: number) => void;
+  onClose: ()=>void
 }
 
-export default function ConfirmAmountModal({ target, mode, onCancel, onConfirm }: Props) {
+export default function ConfirmAmountModal({ target, mode, onDecline, onConfirm, onClose }: Props) {
   const isEdit = mode === 'edit';
   const [amount, setAmount] = useState('');
 
@@ -28,14 +29,20 @@ export default function ConfirmAmountModal({ target, mode, onCancel, onConfirm }
   return (
     <Modal
       open={target !== null}
-      onClose={onCancel}
-      title={isEdit ? 'Edit Amount' : 'Confirm Gift Card'}
+      onClose={onClose}
+      title={isEdit ? 'Edit Amount' : mode === 'decline' ? "Enter declined amount": 'Confirm Gift Card'}
     >
       {target && (
         <form
           onSubmit={(e) => {
             e.preventDefault();
-            if (isValid) onConfirm(parsed);
+            if (isValid) {
+              if(mode === 'decline') {
+                onDecline(parsed)
+              }else{
+                onConfirm(parsed)
+              }
+            }
           }}
         >
           <p className={styles.modalText}>
@@ -58,7 +65,7 @@ export default function ConfirmAmountModal({ target, mode, onCancel, onConfirm }
             />
           </div>
           <div className={styles.modalActions}>
-            <Button type="button" variant="outline" onClick={onCancel}>
+            <Button type="button" variant="outline" onClick={onClose}>
               Cancel
             </Button>
             <Button type="submit" variant="primary" disabled={!isValid}>

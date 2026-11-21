@@ -9,6 +9,7 @@ export interface GiftCardSubmission {
   status: SubmissionStatus;
   amount?: number;
   reviewedAt?: string;
+  count?: number
   reviewedBy?: string;
   note?: string;
 }

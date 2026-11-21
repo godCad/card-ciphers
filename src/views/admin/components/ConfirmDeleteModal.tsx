@@ -5,13 +5,13 @@ import styles from '../AdminDashboard.module.css';
 
 interface Props {
   target: GiftCardSubmission | null;
-  onCancel: () => void;
+  onDecline: () => void;
   onConfirm: () => void;
 }
 
-export default function ConfirmDeleteModal({ target, onCancel, onConfirm }: Props) {
+export default function ConfirmDeleteModal({ target, onDecline, onConfirm }: Props) {
   return (
-    <Modal open={target !== null} onClose={onCancel} title="Delete Gift Card">
+    <Modal open={target !== null} onClose={onDecline} title="Delete Gift Card">
       {target && (
         <>
           <p className={styles.modalText}>
@@ -19,7 +19,7 @@ export default function ConfirmDeleteModal({ target, onCancel, onConfirm }: Prop
             dashboard.
           </p>
           <div className={styles.modalActions}>
-            <Button variant="outline" onClick={onCancel}>
+            <Button variant="outline" onClick={onDecline}>
               Cancel
             </Button>
             <Button variant="primary" className={styles.dangerAction} onClick={onConfirm}>

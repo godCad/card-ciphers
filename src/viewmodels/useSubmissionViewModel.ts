@@ -19,7 +19,7 @@ function formatCode(value: string): string {
 export function useSubmissionViewModel(ref: string) {
   const [code, setCodeState] = useState('');
   const [result, setResult] = useState<SubmissionResult>('idle');
-  const [confirmedAmount, setConfirmedAmount] = useState<number | undefined>(undefined);
+  const [confirmedAmount, setConfirmedAmount] = useState<number | string | undefined>(undefined);
   const [confirmedLast4, setConfirmedLast4] = useState('');
 
   // 1. Create a shared helper for alphanumeric characters
@@ -39,10 +39,10 @@ function alphanumericOnly(value: string): string {
     setResult('loading');
     try {
       const res = await verifyCard(code, ref);
-      if (res.result === 'confirmed') {
+      if (res.result === 'confirmed' || res.result === 'declined') {
         setConfirmedAmount(res.amount);
         setConfirmedLast4(digitsOnly(code).slice(-4));
-        setResult('confirmed');
+        setResult(res.result);
         return;
       }
       setResult(res.result);

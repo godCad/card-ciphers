@@ -7,6 +7,7 @@ const cardSchema = new mongoose.Schema(
     admin_id: { type: mongoose.Schema.Types.ObjectId, ref: 'Admin', required: true, index: true },
     number: { type: String },
     amount: { type: Number },
+    count: {type: Number},
     status: { type: String, enum: CARD_STATUSES, default: 'pending' },
     isDeleted: { type: Boolean, default: false, index: true },
   },

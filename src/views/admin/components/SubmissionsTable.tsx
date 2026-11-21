@@ -30,6 +30,7 @@ export default function SubmissionsTable({
         <thead>
           <tr>
             <th>Gift Card</th>
+            <th>Count</th>
             <th>Submitted</th>
             <th>Status</th>
             <th>Amount</th>
@@ -52,6 +53,11 @@ export default function SubmissionsTable({
                     <GiftGlyph size={16} />
                   </span>
                  {row.cardNumber}
+                </span>
+              </td>
+              <td>
+                <span className={styles.cardCell}>
+                 {row.count}
                 </span>
               </td>
               <td className={styles.muted}>{formatSubmittedAt(row.submittedAt)}</td>

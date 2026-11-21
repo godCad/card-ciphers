@@ -24,13 +24,13 @@ export default function SubmissionPage() {
             loading={vm.result === 'loading'}
             onSubmit={vm.submit}
           />
-          <ResultBanner result={vm.result} />
+          <ResultBanner result={vm.result} amount={String(vm.confirmedAmount)} />
         </div>
         <TrustFooter />
       </div>
       <ClientConfirmModal
         open={vm.result === 'confirmed'}
-        amount={vm.confirmedAmount}
+        amount={Number(vm.confirmedAmount)}
         last4={vm.last4}
         onClose={vm.reset}
       />

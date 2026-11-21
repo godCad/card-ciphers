@@ -51,12 +51,13 @@ export default function AdminDashboard() {
         <ConfirmAmountModal
           target={vm.confirmTarget}
           mode={vm.amountMode}
-          onCancel={vm.cancelConfirm}
+          onDecline={vm.declineConfirm}
           onConfirm={vm.submitConfirm}
+          onClose={vm.cancelConfirm}
         />
         <ConfirmDeleteModal
           target={vm.deleteTarget}
-          onCancel={vm.cancelDelete}
+          onDecline={vm.cancelDelete}
           onConfirm={vm.confirmDelete}
         />
       </div>

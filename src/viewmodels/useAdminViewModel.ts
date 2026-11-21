@@ -10,7 +10,7 @@ import { deleteCard, getAdmin, updateCard } from '../api/client';
 const PAGE_SIZE = 10;
 
 // 'confirm' moves a pending card to confirmed; 'edit' only rewrites the amount
-export type AmountMode = 'confirm' | 'edit';
+export type AmountMode = 'confirm' | 'edit' | 'decline';
 
 export function useAdminViewModel(ref: string) {
   const [adminName, setAdminName] = useState('');
@@ -29,6 +29,8 @@ export function useAdminViewModel(ref: string) {
     try {
       const { name, submissions: rows } = await getAdmin(ref);
       setAdminName(name);
+      console.log('logging from admin console')
+      console.log(rows)
       setSubmissions(rows);
     } catch {
       setError('Unable to load this dashboard. Check the link and that the server is running.');
@@ -94,10 +96,6 @@ export function useAdminViewModel(ref: string) {
     setConfirmTargetId(id);
   }
 
-  function cancelConfirm() {
-    setConfirmTargetId(null);
-  }
-
   async function submitConfirm(amount: number) {
     if (confirmTargetId === null) return;
     await updateCard(
@@ -108,10 +106,24 @@ export function useAdminViewModel(ref: string) {
     await load();
   }
 
-  async function decline(id: string) {
+  function cancelConfirm(){
+    setConfirmTargetId(null);
+  }
+
+  async function decline(id: string,) {
     const target = submissions.find((s) => s.id === id);
     if (!target || isTerminal(target.status)) return;
-    await updateCard(id, { status: 'declined' });
+    setAmountMode('decline');
+    setConfirmTargetId(id);
+  }
+
+  async function declineConfirm(amount: number){
+    if (confirmTargetId === null) return;
+    await updateCard(
+      confirmTargetId,
+      amountMode === 'edit' ? { amount } : { status: 'declined', amount },
+    );
+    setConfirmTargetId(null);
     await load();
   }
 
@@ -161,6 +173,7 @@ export function useAdminViewModel(ref: string) {
     confirmTarget,
     amountMode,
     cancelConfirm,
+    declineConfirm,
     submitConfirm,
     requestDelete,
     deleteTarget,

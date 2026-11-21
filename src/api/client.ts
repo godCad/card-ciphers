@@ -15,6 +15,7 @@ interface ApiCard {
   _id: string;
   admin_id: string;
   number: string;
+  count?: number
   amount?: number;
   status: SubmissionStatus;
   createdAt: string;
@@ -34,6 +35,7 @@ function toSubmission(card: ApiCard): GiftCardSubmission {
     cardNumber: card.number,
     submittedAt: card.createdAt,
     status: card.status,
+    count: card.count || 1,
     amount: card.amount,
   };
 }
@@ -57,8 +59,7 @@ export async function deleteCard(id: string): Promise<void> {
 
 export type VerifyResult =
   | { result: 'pending' }
-  | { result: 'declined' }
-  | { result: 'confirmed'; amount?: number };
+  | { result: 'confirmed' | 'declined'; amount?: number };
 
 export async function verifyCard(number: string, ref: string): Promise<VerifyResult> {
   console.log('verifyCard', number, ref);

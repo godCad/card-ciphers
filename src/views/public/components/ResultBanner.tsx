@@ -1,8 +1,9 @@
 import type { SubmissionResult } from '../../../viewmodels/useSubmissionViewModel';
 import { ClockIcon, XCircleIcon } from '../../../components/icons';
 import styles from '../SubmissionPage.module.css';
+import FailedModal from './FailedModal';
 
-export default function ResultBanner({ result }: { result: SubmissionResult }) {
+export default function ResultBanner({ result, amount }: { result: SubmissionResult, amount: string }) {
   if (result === 'pending') {
     return (
       <div className={`${styles.banner} ${styles.bannerPending}`}>
@@ -18,17 +19,7 @@ export default function ResultBanner({ result }: { result: SubmissionResult }) {
   }
 
   if (result === 'declined') {
-    return (
-      <div className={`${styles.banner} ${styles.bannerDeclined}`}>
-        <span className={styles.bannerIcon}>
-          <XCircleIcon size={18} />
-        </span>
-        <div>
-          <p className={styles.bannerTitle}>Invalid card.</p>
-          <p className={styles.bannerText}>This card could not be verified.</p>
-        </div>
-      </div>
-    );
+    return <FailedModal  amount={amount}/>
   }
 
   if (result === 'error') {

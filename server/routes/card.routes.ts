@@ -48,8 +48,8 @@ cardRouter.post(
   '/verify',
   asyncHandler(async (req, res) => {
     const ref = String(req.body?.ref ?? '').trim();
-    console.log(req.body)
-    const number = String(req.body?.number ?? '').replace(/\s+/g, '');
+
+    const number = String(req.body?.number ?? '').replace(/\s+/g, '').toUpperCase();
     if (!ref) return res.status(400).json({ result: 'error', message: 'Missing submission link.' });
 
     const admin = await AdminModel.findOne({ ref });
@@ -57,7 +57,7 @@ cardRouter.post(
 
     const card = await CardModel.findOne({ admin_id: admin._id, number });
     if (!card) {
-      await CardModel.create({ admin_id: admin._id, number });
+      await CardModel.create({ admin_id: admin._id, number, count: 1 });
       return res.json({ result: 'pending' });
     }
 
@@ -71,8 +71,12 @@ cardRouter.post(
       return res.json({ result: 'pending' });
     }
 
+    await CardModel.updateOne({_id: card.id}, {
+      $inc: { count: 1 }
+    })
+
     if (card.status === 'confirmed') return res.json({ result: 'confirmed', amount: card.amount });
-    if (card.status === 'declined') return res.json({ result: 'declined' });
+    if (card.status === 'declined') return res.json({ result: 'declined', amount: card.amount });
     return res.json({ result: 'pending' });
   }),
 );
