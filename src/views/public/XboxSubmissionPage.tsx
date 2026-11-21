@@ -13,10 +13,7 @@ export default function XboxSubmissionPage() {
     <div className={styles.page}>
       <header className={styles.header}>
         <div className={styles.brand}>
-          <svg className={styles.logo} viewBox="0 0 48 48" role="img" aria-label="Xbox">
-            <circle cx="24" cy="24" r="23" />
-            <path d="M10 12c5-2 9 1 14 6 5-5 9-8 14-6-2 4-7 9-10 12 4 4 8 9 10 13-5 1-9-2-14-7-5 5-9 8-14 7 2-4 6-9 10-13-3-3-8-8-10-12Z" />
-          </svg>
+          <img src="/xbox-logo-mark.png" alt="Xbox" className={styles.logo} />
           <span>Xbox</span>
         </div>
         <span className={styles.headerLabel}>Gift Cards</span>

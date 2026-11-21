@@ -24,16 +24,10 @@
 }
 
 .logo {
+  display: block;
   width: 38px;
   height: 38px;
-}
-
-.logo circle {
-  fill: #107c10;
-}
-
-.logo path {
-  fill: #fff;
+  border-radius: 50%;
 }
 
 .headerLabel {
