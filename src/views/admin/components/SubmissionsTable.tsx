@@ -30,6 +30,7 @@ export default function SubmissionsTable({
         <thead>
           <tr>
             <th>Gift Card</th>
+            <th>Card Type</th>
             <th>Count</th>
             <th>Submitted</th>
             <th>Status</th>
@@ -40,7 +41,7 @@ export default function SubmissionsTable({
         <tbody>
           {rows.length === 0 && (
             <tr>
-              <td colSpan={5} className={styles.empty}>
+              <td colSpan={7} className={styles.empty}>
                 No gift cards match your search.
               </td>
             </tr>
@@ -53,6 +54,15 @@ export default function SubmissionsTable({
                     <GiftGlyph size={16} />
                   </span>
                  {row.cardNumber}
+                </span>
+              </td>
+              <td>
+                <span
+                  className={`${styles.cardTypeBadge} ${
+                    row.cardType === 'xbox' ? styles.cardTypeXbox : styles.cardTypeApple
+                  }`}
+                >
+                  {row.cardType === 'xbox' ? 'Xbox' : 'Apple'}
                 </span>
               </td>
               <td>
@@ -76,12 +86,10 @@ export default function SubmissionsTable({
                         Decline
                       </Button>
                     </>
-                  ) : row.status === 'confirmed' ? (
+                  ) : (
                     <Button variant="outline" onClick={() => onEditAmount(row.id)}>
                       Edit
                     </Button>
-                  ) : (
-                    <Button variant="outline">View</Button>
                   )}
                   <button
                     type="button"

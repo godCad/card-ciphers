@@ -250,6 +250,25 @@
   color: var(--text-muted);
 }
 
+.cardTypeBadge {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 9px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.cardTypeApple {
+  background: #f1f2f5;
+  color: #4b5563;
+}
+
+.cardTypeXbox {
+  background: #e8f5e9;
+  color: #107c10;
+}
+
 .muted {
   color: var(--text-muted);
 }

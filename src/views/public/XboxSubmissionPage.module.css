@@ -1,0 +1,151 @@
+.page {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+  background: #0b0f0c;
+  color: #f5f5f5;
+}
+
+.header {
+  display: flex;
+  min-height: 76px;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px clamp(20px, 6vw, 76px);
+  border-bottom: 1px solid #303a33;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.logo {
+  width: 38px;
+  height: 38px;
+}
+
+.logo circle {
+  fill: #107c10;
+}
+
+.logo path {
+  fill: #fff;
+}
+
+.headerLabel {
+  color: #d6e6d8;
+  font-size: 15px;
+}
+
+.content {
+  width: min(100% - 40px, 620px);
+  margin: auto;
+  padding: 72px 0 96px;
+}
+
+.eyebrow {
+  margin-bottom: 14px;
+  color: #6cc349;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+}
+
+.title {
+  max-width: 16ch;
+  margin: 0 0 16px;
+  font-size: clamp(34px, 6vw, 52px);
+  font-weight: 600;
+  letter-spacing: -0.035em;
+  line-height: 1.08;
+}
+
+.description {
+  margin-bottom: 38px;
+  color: #b8c0ba;
+  font-size: 17px;
+  line-height: 1.5;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+}
+
+.label {
+  margin-bottom: 10px;
+  color: #e7e9e7;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.input {
+  width: 100%;
+  min-height: 62px;
+  padding: 14px 16px;
+  border: 1px solid #67736a;
+  border-radius: 4px;
+  background: #171c18;
+  color: #fff;
+  font: inherit;
+  font-size: 17px;
+  letter-spacing: 0.04em;
+}
+
+.input::placeholder {
+  color: #8d968f;
+}
+
+.input:focus {
+  border-color: #6cc349;
+  outline: 2px solid #6cc349;
+  outline-offset: 2px;
+}
+
+.hint {
+  margin: 10px 0 24px;
+  color: #aab3ac;
+  font-size: 13px;
+}
+
+.submit {
+  min-height: 56px;
+  border: 0;
+  border-radius: 4px;
+  background: #107c10;
+  color: #fff;
+  font: inherit;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.submit:hover:not(:disabled) {
+  background: #159b15;
+}
+
+.submit:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.footer {
+  padding: 20px clamp(20px, 6vw, 76px);
+  border-top: 1px solid #303a33;
+  color: #aab3ac;
+  font-size: 13px;
+}
+
+@media (max-width: 560px) {
+  .content {
+    padding: 52px 0 72px;
+  }
+
+  .input {
+    font-size: 14px;
+  }
+}

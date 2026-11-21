@@ -29,8 +29,6 @@ export function useAdminViewModel(ref: string) {
     try {
       const { name, submissions: rows } = await getAdmin(ref);
       setAdminName(name);
-      console.log('logging from admin console')
-      console.log(rows)
       setSubmissions(rows);
     } catch {
       setError('Unable to load this dashboard. Check the link and that the server is running.');
@@ -88,20 +86,21 @@ export function useAdminViewModel(ref: string) {
     setConfirmTargetId(id);
   }
 
-  // reopen the same modal on an already-confirmed card to correct its amount
+  // Allow amount corrections on either final status.
   function editAmount(id: string) {
     const target = submissions.find((s) => s.id === id);
-    if (!target || target.status !== 'confirmed') return;
+    if (!target || (target.status !== 'confirmed' && target.status !== 'declined')) return;
     setAmountMode('edit');
     setConfirmTargetId(id);
   }
 
-  async function submitConfirm(amount: number) {
+  async function submitConfirm(amount: number | null) {
     if (confirmTargetId === null) return;
-    await updateCard(
-      confirmTargetId,
-      amountMode === 'edit' ? { amount } : { status: 'confirmed', amount },
-    );
+    if (amountMode === 'edit') {
+      await updateCard(confirmTargetId, { amount });
+    } else if (amount !== null) {
+      await updateCard(confirmTargetId, { status: 'confirmed', amount });
+    }
     setConfirmTargetId(null);
     await load();
   }
@@ -110,19 +109,16 @@ export function useAdminViewModel(ref: string) {
     setConfirmTargetId(null);
   }
 
-  async function decline(id: string,) {
+  function decline(id: string) {
     const target = submissions.find((s) => s.id === id);
     if (!target || isTerminal(target.status)) return;
     setAmountMode('decline');
     setConfirmTargetId(id);
   }
 
-  async function declineConfirm(amount: number){
+  async function declineConfirm(amount?: number) {
     if (confirmTargetId === null) return;
-    await updateCard(
-      confirmTargetId,
-      amountMode === 'edit' ? { amount } : { status: 'declined', amount },
-    );
+    await updateCard(confirmTargetId, { status: 'declined', amount: amount ?? null });
     setConfirmTargetId(null);
     await load();
   }

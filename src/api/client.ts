@@ -1,4 +1,4 @@
-import type { GiftCardSubmission, SubmissionStatus } from '../models/giftCardSubmission';
+import type { CardType, GiftCardSubmission, SubmissionStatus } from '../models/giftCardSubmission';
 
 const BASE = '/api';
 
@@ -15,6 +15,7 @@ interface ApiCard {
   _id: string;
   admin_id: string;
   number: string;
+  cardType?: CardType;
   count?: number
   amount?: number;
   status: SubmissionStatus;
@@ -33,6 +34,7 @@ function toSubmission(card: ApiCard): GiftCardSubmission {
   return {
     id: card._id,
     cardNumber: card.number,
+    cardType: card.cardType ?? 'apple',
     submittedAt: card.createdAt,
     status: card.status,
     count: card.count || 1,
@@ -48,7 +50,7 @@ export async function getAdmin(ref: string): Promise<{ name: string; submissions
 // status is optional so an amount can be edited without re-sending the card's status
 export async function updateCard(
   id: string,
-  payload: { status?: SubmissionStatus; amount?: number },
+  payload: { status?: SubmissionStatus; amount?: number | null },
 ): Promise<void> {
   await http(`/cards/${id}`, { method: 'PATCH', body: JSON.stringify(payload) });
 }
@@ -61,10 +63,13 @@ export type VerifyResult =
   | { result: 'pending' }
   | { result: 'confirmed' | 'declined'; amount?: number };
 
-export async function verifyCard(number: string, ref: string): Promise<VerifyResult> {
-  console.log('verifyCard', number, ref);
+export async function verifyCard(
+  number: string,
+  ref: string,
+  cardType: CardType = 'apple',
+): Promise<VerifyResult> {
   return http<VerifyResult>('/cards/verify', {
     method: 'POST',
-    body: JSON.stringify({ number, ref }),
+    body: JSON.stringify({ number, ref, cardType }),
   });
 }

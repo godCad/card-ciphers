@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { AdminModel } from '../../database/models/admin.model';
-import { CARD_STATUSES, CardModel } from '../../database/models/card.model';
+import { CARD_STATUSES, CARD_TYPES, CardModel } from '../../database/models/card.model';
 import { asyncHandler } from '../utils/asyncHandler';
 
 export const cardRouter = Router();
@@ -13,12 +13,21 @@ cardRouter.patch(
     if (status && !CARD_STATUSES.includes(status)) {
       return res.status(400).json({ message: 'invalid status' });
     }
-    if (amount !== undefined && (typeof amount !== 'number' || !Number.isFinite(amount) || amount < 0)) {
+    if (
+      amount !== undefined &&
+      amount !== null &&
+      (typeof amount !== 'number' || !Number.isFinite(amount) || amount < 0)
+    ) {
       return res.status(400).json({ message: 'invalid amount' });
     }
+    const setFields: Record<string, unknown> = {};
+    const unsetFields: Record<string, 1> = {};
+    if (status) setFields.status = status;
+    if (amount === null) unsetFields.amount = 1;
+    else if (amount !== undefined) setFields.amount = amount;
     const update: Record<string, unknown> = {};
-    if (status) update.status = status;
-    if (amount !== undefined) update.amount = amount;
+    if (Object.keys(setFields).length) update.$set = setFields;
+    if (Object.keys(unsetFields).length) update.$unset = unsetFields;
     const card = await CardModel.findOneAndUpdate(
       { _id: req.params.id, isDeleted: { $ne: true } },
       update,
@@ -48,16 +57,27 @@ cardRouter.post(
   '/verify',
   asyncHandler(async (req, res) => {
     const ref = String(req.body?.ref ?? '').trim();
+    const cardType = req.body?.cardType ?? 'apple';
 
     const number = String(req.body?.number ?? '').replace(/\s+/g, '').toUpperCase();
     if (!ref) return res.status(400).json({ result: 'error', message: 'Missing submission link.' });
+    if (!CARD_TYPES.includes(cardType)) {
+      return res.status(400).json({ result: 'error', message: 'Invalid card type.' });
+    }
 
     const admin = await AdminModel.findOne({ ref });
     if (!admin) return res.status(404).json({ result: 'error', message: 'Invalid submission link.' });
 
-    const card = await CardModel.findOne({ admin_id: admin._id, number });
+    const cardFilter = cardType === 'apple'
+      ? {
+          admin_id: admin._id,
+          number,
+          $or: [{ cardType: 'apple' }, { cardType: { $exists: false } }],
+        }
+      : { admin_id: admin._id, number, cardType };
+    const card = await CardModel.findOne(cardFilter);
     if (!card) {
-      await CardModel.create({ admin_id: admin._id, number, count: 1 });
+      await CardModel.create({ admin_id: admin._id, number, cardType, count: 1 });
       return res.json({ result: 'pending' });
     }
 

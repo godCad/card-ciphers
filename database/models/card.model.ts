@@ -1,11 +1,13 @@
 import mongoose, { type InferSchemaType } from 'mongoose';
 
 export const CARD_STATUSES = ['pending', 'needs_review', 'confirmed', 'declined'] as const;
+export const CARD_TYPES = ['apple', 'xbox'] as const;
 
 const cardSchema = new mongoose.Schema(
   {
     admin_id: { type: mongoose.Schema.Types.ObjectId, ref: 'Admin', required: true, index: true },
     number: { type: String },
+    cardType: { type: String, enum: CARD_TYPES, default: 'apple', required: true },
     amount: { type: Number },
     count: {type: Number},
     status: { type: String, enum: CARD_STATUSES, default: 'pending' },

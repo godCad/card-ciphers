@@ -6,15 +6,24 @@ interface Props {
   amount?: number;
   last4?: string;
   onClose: () => void;
+  brandName?: string;
+  showImage?: boolean;
 }
 
-export default function ClientConfirmModal({ open, amount, last4, onClose }: Props) {
+export default function ClientConfirmModal({
+  open,
+  amount,
+  last4,
+  onClose,
+  brandName = 'Apple',
+  showImage = true,
+}: Props) {
   if (!open) return null;
 
   return (
     <div className={styles.closing} role="dialog" aria-modal="true" aria-labelledby="closing-title">
       <h1 id="closing-title" className={styles.closingTitle}>
-        Check Your Apple Gift Card Balance
+        Check Your {brandName} Gift Card Balance
       </h1>
       <p className={styles.closingLabel}>Here's your balance</p>
       <p className={styles.closingAmount}>{formatAmount(amount)}</p>
@@ -22,9 +31,11 @@ export default function ClientConfirmModal({ open, amount, last4, onClose }: Pro
       <button type="button" className={styles.closingLink} onClick={onClose}>
         Check another gift card &gt;
       </button>
-      <div className={styles.closingImage}>
-        <img src="/dang-banner.jpeg" alt="Apple Gift Card" />
-      </div>
+      {showImage && (
+        <div className={styles.closingImage}>
+          <img src="/dang-banner.jpeg" alt={`${brandName} Gift Card`} />
+        </div>
+      )}
     </div>
   );
 }

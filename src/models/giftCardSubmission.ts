@@ -1,10 +1,12 @@
 export type SubmissionStatus = 'pending' | 'needs_review' | 'confirmed' | 'declined';
+export type CardType = 'apple' | 'xbox';
 
 export type StatusTone = 'amber' | 'purple' | 'green' | 'red';
 
 export interface GiftCardSubmission {
   id: string;
   cardNumber: string;
+  cardType: CardType;
   submittedAt: string;
   status: SubmissionStatus;
   amount?: number;

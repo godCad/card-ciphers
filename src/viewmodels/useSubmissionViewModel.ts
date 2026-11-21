@@ -1,35 +1,34 @@
 import { useState } from 'react';
-import { digitsOnly } from '../models/giftCardSubmission';
 import { verifyCard } from '../api/client';
+import type { CardType } from '../models/giftCardSubmission';
 
 export type SubmissionResult = 'idle' | 'loading' | 'pending' | 'confirmed' | 'declined' | 'error';
 
-// group digits into blocks of four for a readable, card-like input
-// group alphanumeric characters into blocks of four for a readable, card-like input
-function formatCode(value: string): string {
-  // Remove anything that is NOT a letter or a number, then limit to 16 characters
-  const alphanumeric = value.replace(/[^a-zA-Z0-9]/g, '').slice(0, 16);
-  
-  // Optional: Convert letters to uppercase automatically (common for gift card codes)
-  // const alphanumeric = value.replace(/[^a-zA-Z0-9]/g, '').toUpperCase().slice(0, 16);
-
-  return alphanumeric.replace(/(.{4})/g, '$1 ').trim();
+function alphanumericOnly(value: string): string {
+  return value.replace(/[^a-zA-Z0-9]/g, '');
 }
 
-export function useSubmissionViewModel(ref: string) {
+function formatCode(value: string, codeLength: number, groupSize: number): string {
+  const alphanumeric = alphanumericOnly(value).slice(0, codeLength);
+  const groups = alphanumeric.match(new RegExp(`.{1,${groupSize}}`, 'g'));
+  return groups?.join(' ') ?? '';
+}
+
+export function useSubmissionViewModel(
+  ref: string,
+  codeLength = 16,
+  groupSize = 4,
+  cardType: CardType = 'apple',
+) {
   const [code, setCodeState] = useState('');
   const [result, setResult] = useState<SubmissionResult>('idle');
   const [confirmedAmount, setConfirmedAmount] = useState<number | string | undefined>(undefined);
   const [confirmedLast4, setConfirmedLast4] = useState('');
 
-  // 1. Create a shared helper for alphanumeric characters
-function alphanumericOnly(value: string): string {
-  return value.replace(/[^a-zA-Z0-9]/g, '');
-}
-  const isValid = alphanumericOnly(code).length === 16;
+  const isValid = alphanumericOnly(code).length === codeLength;
 
   function setCode(value: string) {
-    setCodeState(formatCode(value));
+    setCodeState(formatCode(value, codeLength, groupSize));
     // clear a finished result as soon as the user edits the code again
     if (result !== 'idle' && result !== 'loading') setResult('idle');
   }
@@ -38,10 +37,10 @@ function alphanumericOnly(value: string): string {
     if (!isValid || result === 'loading') return;
     setResult('loading');
     try {
-      const res = await verifyCard(code, ref);
+      const res = await verifyCard(code, ref, cardType);
       if (res.result === 'confirmed' || res.result === 'declined') {
         setConfirmedAmount(res.amount);
-        setConfirmedLast4(digitsOnly(code).slice(-4));
+        setConfirmedLast4(alphanumericOnly(code).slice(-4));
         setResult(res.result);
         return;
       }
