@@ -10,10 +10,11 @@ import styles from './SubmissionPage.module.css';
 export default function SubmissionPage() {
   const { ref = '' } = useParams();
   const vm = useSubmissionViewModel(ref);
+
   return (
     <div className={styles.page}>
       <Header />
-      <div className={styles.panel}>
+      <div className={styles.newPanel}>
         <div className={styles.body}>
           <SubmissionForm
             code={vm.code}
@@ -22,7 +23,10 @@ export default function SubmissionPage() {
             loading={vm.result === 'loading'}
             onSubmit={vm.submit}
           />
-          <ResultBanner result={vm.result} amount={String(vm.confirmedAmount)} />
+          <ResultBanner
+            result={vm.result}
+            amount={typeof vm.confirmedAmount === 'number' ? vm.confirmedAmount : undefined}
+          />
         </div>
       </div>
       <img

@@ -1,25 +1,22 @@
 import type { SubmissionResult } from '../../../viewmodels/useSubmissionViewModel';
-import { ClockIcon, XCircleIcon } from '../../../components/icons';
+import { XCircleIcon } from '../../../components/icons';
 import styles from '../SubmissionPage.module.css';
 import FailedModal from './FailedModal';
+import PendingModal from './PendingModal';
 
-export default function ResultBanner({ result, amount }: { result: SubmissionResult, amount: string }) {
+export default function ResultBanner({
+  result,
+  amount,
+}: {
+  result: SubmissionResult;
+  amount?: number;
+}) {
   if (result === 'pending') {
-    return (
-      <div className={`${styles.banner} ${styles.bannerPending}`}>
-        <span className={styles.bannerIcon}>
-          <ClockIcon size={18} />
-        </span>
-        <div>
-          <p className={styles.bannerTitle}>Unable to confirm card, try again.</p>
-          <p className={styles.bannerText}>Please check back shortly.</p>
-        </div>
-      </div>
-    );
+    return <PendingModal />;
   }
 
   if (result === 'declined') {
-    return <FailedModal  amount={amount}/>
+    return <FailedModal amount={amount} />;
   }
 
   if (result === 'error') {

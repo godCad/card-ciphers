@@ -17,6 +17,7 @@ export default function SubmissionForm({ code, setCode, isValid, loading, onSubm
         onSubmit={(e) => {
           e.preventDefault();
           onSubmit();
+          setCode("")
         }}
       >
         <label className={styles.pinLabel} htmlFor="gift-card-pin">
