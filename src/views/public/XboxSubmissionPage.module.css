@@ -2,138 +2,348 @@
   display: flex;
   min-height: 100vh;
   flex-direction: column;
-  background: #0b0f0c;
+  background: #0f0f0f;
   color: #f5f5f5;
+  font-family: "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;
 }
 
+/* ---------- Header ---------- */
 .header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: #0b0b0b;
+  border-bottom: 1px solid #1f1f1f;
+}
+
+.headerInner {
   display: flex;
-  min-height: 76px;
   align-items: center;
   justify-content: space-between;
-  padding: 16px clamp(20px, 6vw, 76px);
-  border-bottom: 1px solid #303a33;
+  height: 50px;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
 }
 
 .brand {
   display: flex;
   align-items: center;
-  gap: 10px;
-  font-size: 22px;
-  font-weight: 700;
+  gap: 12px;
+  text-decoration: none;
 }
 
-.logo {
+.xboxLogo {
+  width: 20px;
+  height: 20px;
   display: block;
-  width: 38px;
-  height: 38px;
-  border-radius: 50%;
 }
 
-.headerLabel {
-  color: #d6e6d8;
-  font-size: 15px;
-}
-
-.content {
-  width: min(100% - 40px, 620px);
-  margin: auto;
-  padding: 72px 0 96px;
-}
-
-.eyebrow {
-  margin-bottom: 14px;
-  color: #6cc349;
-  font-size: 13px;
+.brandName {
+  color: #107c10;
+  font-size: 18px;
   font-weight: 700;
-  letter-spacing: 0.14em;
+  letter-spacing: -0.02em;
 }
 
-.title {
-  max-width: 16ch;
+.nav {
+  display: flex;
+  align-items: center;
+  gap: 36px;
+}
+
+.navLink {
+  color: #e8e8e8;
+  font-size: 14px;
+  font-weight: 300;
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+
+.navLink:hover {
+  color: #107c10;
+}
+
+.menuButton {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border: 0;
+  background: transparent;
+  color: #fff;
+  cursor: pointer;
+}
+
+/* ---------- Mobile menu ---------- */
+.menuOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  background: rgba(0, 0, 0, 0.6);
+}
+
+.menuPanel {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  max-width: 420px;
+  height: 100%;
+  background: #0b0b0b;
+  padding: 20px 24px;
+  overflow-y: auto;
+}
+
+.menuClose {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  margin-left: auto;
+  border: 0;
+  background: transparent;
+  color: #fff;
+  cursor: pointer;
+}
+
+.menuNav {
+  display: flex;
+  flex-direction: column;
+  margin-top: 12px;
+}
+
+.menuLink {
+  padding: 10px 0;
+  border-bottom: 1px solid #2a2a2a;
+  color: #f0f0f0;
+  font-size: 18px;
+  font-weight: 200;
+  text-decoration: none;
+}
+
+.menuLink:hover {
+  color: #107c10;
+}
+
+/* ---------- Hero ---------- */
+.hero {
+  background:rgb(3, 56, 3);
+  padding: 72px 24px 64px;
+  text-align: center;
+}
+
+.heroTitle {
   margin: 0 0 16px;
-  font-size: clamp(34px, 6vw, 52px);
-  font-weight: 600;
-  letter-spacing: -0.035em;
-  line-height: 1.08;
+  color: #fff;
+  font-size: clamp(23px, 5vw, 44px);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
 }
 
-.description {
-  margin-bottom: 38px;
-  color: #b8c0ba;
-  font-size: 17px;
-  line-height: 1.5;
+.heroSubtitle {
+  margin: 0;
+  color: #c9d1ca;
+  font-size: clamp(15px, 2.5vw, 19px);
+  line-height: 1.4;
 }
 
+/* ---------- Main ---------- */
+.main {
+  width: min(100% - 48px, 760px);
+  margin: 0 auto;
+  padding: 56px 0 80px;
+}
+
+.formCard {
+  background: #161616;
+  border: 1px solid #262626;
+  border-radius: 10px;
+  padding: 32px;
+  margin-bottom: 40px;
+}
+
+/* ---------- Form ---------- */
 .form {
   display: flex;
   flex-direction: column;
 }
 
 .label {
-  margin-bottom: 10px;
-  color: #e7e9e7;
-  font-size: 15px;
-  font-weight: 600;
+  margin-bottom: 14px;
+  color: #f5f5f5;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+.inputWrap {
+  position: relative;
+  display: flex;
+  align-items: center;
 }
 
 .input {
   width: 100%;
-  min-height: 62px;
-  padding: 14px 16px;
-  border: 1px solid #67736a;
-  border-radius: 4px;
-  background: #171c18;
+  min-height: 58px;
+  padding: 14px 70px 14px 18px;
+  border: 1px solid #2d5a2d;
+  border-radius: 6px;
+  background: #0e0e0e;
   color: #fff;
   font: inherit;
-  font-size: 17px;
-  letter-spacing: 0.04em;
+  font-size: 16px;
+  letter-spacing: 0.06em;
 }
 
 .input::placeholder {
-  color: #8d968f;
+  color: #6b7280;
+  letter-spacing: 0.08em;
 }
 
 .input:focus {
-  border-color: #6cc349;
-  outline: 2px solid #6cc349;
-  outline-offset: 2px;
+  border-color: #107c10;
+  outline: 2px solid #107c10;
+  outline-offset: 1px;
 }
 
-.hint {
-  margin: 10px 0 24px;
-  color: #aab3ac;
-  font-size: 13px;
+.input:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.counter {
+  position: absolute;
+  right: 18px;
+  color: #8a8a8a;
+  font-size: 14px;
+  font-weight: 600;
+  pointer-events: none;
 }
 
 .submit {
+  margin-top: 20px;
   min-height: 56px;
   border: 0;
-  border-radius: 4px;
+  border-radius: 6px;
   background: #107c10;
   color: #fff;
   font: inherit;
   font-size: 16px;
   font-weight: 700;
+  letter-spacing: 0.02em;
   cursor: pointer;
+  transition: background 0.15s ease;
 }
 
 .submit:hover:not(:disabled) {
-  background: #159b15;
+  background: #139a13;
 }
 
 .submit:disabled {
-  opacity: 0.55;
+  opacity: 0.45;
   cursor: not-allowed;
 }
 
+/* ---------- Info cards ---------- */
+.infoGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.infoCard {
+  background: #161616;
+  border: 1px solid #1f3a1f;
+  border-radius: 10px;
+  padding: 32px 24px;
+  text-align: center;
+}
+
+.infoIcon {
+  font-size: 36px;
+  margin-bottom: 14px;
+}
+
+.infoTitle {
+  margin: 0 0 12px;
+  color: #4caf50;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.infoText {
+  margin: 0;
+  color: #b3b3b3;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+/* ---------- Footer ---------- */
 .footer {
-  padding: 20px clamp(20px, 6vw, 76px);
-  border-top: 1px solid #303a33;
-  color: #aab3ac;
+  margin-top: auto;
+  background: #0b0b0b;
+  border-top: 1px solid #1f1f1f;
+}
+
+.footerInner {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 32px;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 48px 24px 32px;
+}
+
+.footerCol {
+  min-width: 0;
+}
+
+.footerTitle {
+  margin: 0 0 16px;
+  color: #f5f5f5;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+}
+
+.footerList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.footerList li {
+  margin-bottom: 12px;
+}
+
+.footerLink {
+  color: #9a9a9a;
+  font-size: 14px;
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+
+.footerLink:hover {
+  color: #107c10;
+}
+
+.footerBottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 24px;
+  border-top: 1px solid #1f1f1f;
+  color: #8a8a8a;
   font-size: 13px;
 }
 
+/* ---------- Success modal (shared with XboxResultModal) ---------- */
 .successOverlay {
   position: fixed;
   inset: 0;
@@ -201,17 +411,49 @@
   background: #0b7414;
 }
 
-@media (max-width: 560px) {
-  .content {
-    padding: 52px 0 72px;
+/* ---------- Responsive ---------- */
+@media (max-width: 860px) {
+  .infoGrid {
+    grid-template-columns: 1fr;
   }
 
-  .input {
-    font-size: 14px;
+  .footerInner {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 720px) {
+  .nav {
+    display: none;
   }
 
-  .successCard {
-    min-height: 310px;
-    padding: 36px 24px;
+  .menuButton {
+    display: flex;
+  }
+
+  .hero {
+    padding: 56px 20px 48px;
+  }
+
+  .main {
+    width: min(100% - 32px, 760px);
+    padding: 40px 0 64px;
+  }
+
+  .formCard {
+    padding: 24px 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .footerInner {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+
+  .footerBottom {
+    flex-direction: column;
+    gap: 8px;
+    text-align: center;
   }
 }

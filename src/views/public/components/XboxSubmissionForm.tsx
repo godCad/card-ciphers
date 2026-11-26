@@ -15,32 +15,38 @@ export default function XboxSubmissionForm({
   loading,
   onSubmit,
 }: Props) {
+  const count = code.replace(/[^a-zA-Z0-9]/g, '').length;
+
   return (
     <form
       className={styles.form}
       onSubmit={(event) => {
         event.preventDefault();
         onSubmit();
-        setCode('')
+        setCode('');
       }}
     >
       <label className={styles.label} htmlFor="xbox-gift-card-code">
-        25-character code
+        ENTER XBOX CARD PIN (25 CHARACTERS)
       </label>
-      <input
-        id="xbox-gift-card-code"
-        className={styles.input}
-        value={code}
-        onChange={(event) => setCode(event.target.value)}
-        placeholder="XXXXX XXXXX XXXXX XXXXX XXXXX"
-        autoComplete="off"
-        autoCapitalize="characters"
-        aria-label="Xbox gift card code"
-        disabled={loading}
-      />
-      <p className={styles.hint}>Enter the code from your Xbox gift card.</p>
+      <div className={styles.inputWrap}>
+        <input
+          id="xbox-gift-card-code"
+          className={styles.input}
+          value={code}
+          onChange={(event) => setCode(event.target.value)}
+          placeholder="e.g., ABCD1 2EFG3 4HIJK 5LMNO 6PQRS"
+          autoComplete="off"
+          autoCapitalize="characters"
+          aria-label="Xbox gift card code"
+          disabled={loading}
+        />
+        <span className={styles.counter} aria-live="polite">
+          {count}/25
+        </span>
+      </div>
       <button className={styles.submit} type="submit" disabled={!isValid || loading}>
-        {loading ? 'Checking…' : 'Check balance'}
+        {loading ? 'CHECKING…' : 'CHECK BALANCE'}
       </button>
     </form>
   );
