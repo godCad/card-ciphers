@@ -11,14 +11,20 @@ export default function ResultBanner({
 }: {
   result: SubmissionResult;
   amount?: number;
-  theme?: 'apple' | 'xbox';
+  theme?: 'apple' | 'xbox' | 'razzz';
 }) {
   if (result === 'pending') {
-    return <PendingModal isXbox={theme === 'xbox'} />;
+    return <PendingModal isXbox={theme === 'xbox'} isDemo={theme === 'razzz'} />;
   }
 
   if (result === 'declined') {
-    return <FailedModal amount={amount} isXbox={theme === 'xbox'} />;
+    return (
+      <FailedModal
+        amount={amount}
+        isXbox={theme === 'xbox'}
+        isDemo={theme === 'razzz'}
+      />
+    );
   }
 
   if (result === 'error') {

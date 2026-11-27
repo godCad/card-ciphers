@@ -1,5 +1,6 @@
 import { formatAmount } from '../../../models/giftCardSubmission';
 import styles from '../SubmissionPage.module.css';
+import DemoResultModal from './DemoResultModal';
 import XboxResultModal from './XboxResultModal';
 
 interface Props {
@@ -9,6 +10,7 @@ interface Props {
   onClose: () => void;
   brandName?: string;
   showImage?: boolean;
+  theme?: 'apple' | 'xbox' | 'razzz';
 }
 
 export default function ClientConfirmModal({
@@ -18,16 +20,28 @@ export default function ClientConfirmModal({
   onClose,
   brandName = 'Apple',
   showImage = true,
+  theme = 'apple',
 }: Props) {
   if (!open) return null;
-  const isXbox = brandName === 'Xbox';
 
-  if (isXbox) {
+  if (theme === 'xbox' || brandName === 'Xbox') {
     return (
       <XboxResultModal
         message="Your gift card balance is:"
         amount={amount}
         buttonLabel="CHECK ANOTHER CARD"
+        onClose={onClose}
+      />
+    );
+  }
+
+  if (theme === 'razzz') {
+    return (
+      <DemoResultModal
+        message="Here's your balance"
+        amount={amount}
+        last4={last4}
+        buttonLabel="Check another gift card"
         onClose={onClose}
       />
     );

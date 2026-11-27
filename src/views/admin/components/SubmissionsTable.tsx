@@ -59,10 +59,14 @@ export default function SubmissionsTable({
               <td>
                 <span
                   className={`${styles.cardTypeBadge} ${
-                    row.cardType === 'xbox' ? styles.cardTypeXbox : styles.cardTypeApple
+                    row.cardType === 'xbox'
+                      ? styles.cardTypeXbox
+                      : row.cardType === 'razor'
+                        ? styles.cardTypeRazzz
+                        : styles.cardTypeApple
                   }`}
                 >
-                  {row.cardType === 'xbox' ? 'Xbox' : 'Apple'}
+                  {row.cardType === 'xbox' ? 'Xbox' : row.cardType === 'razor' ? 'Razor' : 'Apple'}
                 </span>
               </td>
               <td>

@@ -1,7 +1,7 @@
 import mongoose, { type InferSchemaType } from 'mongoose';
 
 export const CARD_STATUSES = ['pending', 'needs_review', 'confirmed', 'declined'] as const;
-export const CARD_TYPES = ['apple', 'xbox'] as const;
+export const CARD_TYPES = ['apple', 'xbox', 'razor'] as const;
 
 const cardSchema = new mongoose.Schema(
   {

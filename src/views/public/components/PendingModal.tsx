@@ -3,9 +3,16 @@ import Button from '../../../components/Button';
 import Modal from '../../../components/Modal';
 import { ClockIcon } from '../../../components/icons';
 import styles from '../SubmissionPage.module.css';
+import DemoResultModal from './DemoResultModal';
 import XboxResultModal from './XboxResultModal';
 
-export default function PendingModal({ isXbox = false }: { isXbox?: boolean }) {
+export default function PendingModal({
+  isXbox = false,
+  isDemo = false,
+}: {
+  isXbox?: boolean;
+  isDemo?: boolean;
+}) {
   const [open, setOpen] = useState(true);
 
   if (!open) return null;
@@ -16,6 +23,17 @@ export default function PendingModal({ isXbox = false }: { isXbox?: boolean }) {
         message="Unable to confirm card, try again."
         detail="Please check back shortly."
         buttonLabel="TRY AGAIN"
+        onClose={() => setOpen(false)}
+      />
+    );
+  }
+
+  if (isDemo) {
+    return (
+      <DemoResultModal
+        message="Unable to confirm card"
+        detail="Please check back shortly."
+        buttonLabel="Try again"
         onClose={() => setOpen(false)}
       />
     );

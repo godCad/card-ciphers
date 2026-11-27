@@ -269,6 +269,11 @@
   color: #107c10;
 }
 
+.cardTypeRazzz {
+  background: #eef2ff;
+  color: #4338ca;
+}
+
 .muted {
   color: var(--text-muted);
 }

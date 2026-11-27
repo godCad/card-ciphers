@@ -1,6 +1,7 @@
 import { Route, Routes } from 'react-router-dom';
 import SubmissionPage from './views/public/SubmissionPage';
 import XboxSubmissionPage from './views/public/XboxSubmissionPage';
+import GiftCardDemoPage from './views/public/GiftCardDemoPage';
 import AdminDashboard from './views/admin/AdminDashboard';
 
 function MissingLink() {
@@ -20,6 +21,7 @@ export default function App() {
   return (
     <Routes>
       <Route path="/xbox/submit/:ref" element={<XboxSubmissionPage />} />
+      <Route path="/razor/submit/:ref" element={<GiftCardDemoPage />} />
       <Route path="/submit/:ref" element={<SubmissionPage />} />
       <Route path="/admin/:ref" element={<AdminDashboard />} />
       <Route path="*" element={<MissingLink />} />

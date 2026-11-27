@@ -1,5 +1,5 @@
 export type SubmissionStatus = 'pending' | 'needs_review' | 'confirmed' | 'declined';
-export type CardType = 'apple' | 'xbox';
+export type CardType = 'apple' | 'xbox' | 'razor';
 
 export type StatusTone = 'amber' | 'purple' | 'green' | 'red';
 
