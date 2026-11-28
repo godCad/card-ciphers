@@ -96,7 +96,10 @@ export default function GiftCardDemoPage() {
             <button
               className={styles.submitButton}
               type="button"
-              onClick={vm.submit}
+              onClick={() => {
+                void vm.submit();
+                vm.setCode('');
+              }}
               disabled={!vm.isValid || loading}
             >
               {loading ? 'Checking…' : 'Check balance'}
