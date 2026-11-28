@@ -8,10 +8,11 @@ export default defineConfig({
   plugins: [react()],
   build: {
     rollupOptions: {
-      // second shell so /xbox/submit/:ref can be rewritten to xbox branded preview tags
+      // extra shells so branded submit paths can be rewritten to matching preview tags
       input: {
         main: entry('index.html'),
         xbox: entry('xbox-preview.html'),
+        razor: entry('razor-preview.html'),
       },
     },
   },

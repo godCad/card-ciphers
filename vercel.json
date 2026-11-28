@@ -9,6 +9,7 @@
   "rewrites": [
     { "source": "/api/(.*)", "destination": "/api" },
     { "source": "/xbox/submit/(.*)", "destination": "/xbox-preview.html" },
+    { "source": "/razor/submit/(.*)", "destination": "/razor-preview.html" },
     { "source": "/((?!api/).*)", "destination": "/index.html" }
   ]
 }
